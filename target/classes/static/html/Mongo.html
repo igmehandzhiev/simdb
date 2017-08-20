@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search IMdB</title>
+    <script src="../js/libs/angular.min.js"></script>
+    <script src="../js/libs/fontAwesome.js"></script>
+    <script src="../js/libs/ng-infinite-scroll.min.js"></script>
+    <link rel="stylesheet" href="../css/movie.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+</head>
+<body ng-app="sIMdB">
+
+<div id="container" ng-controller="sIMdBController">
+    <!--LOGO-->
+    <a href="../index.html"><img src="../img/imdb_logo.png"></a>
+    <div id="searchArea" ng-init="advanced = false; searchByName = '';
+                                searchByYear = null;searchByRating = null">
+        <div id="quickSearch">
+            <!--input-->
+            <input ng-model="searchByName" type="search" placeholder="Search movie title" value="" autofocus/>
+            <input type="submit" ng-click="search()"/>
+            <input id="advancedSearchBtn" type="checkbox"
+                   value="Advanced Search" ng-model="advanced" ng-hide="true"/>
+            <label for="advancedSearchBtn">Advanced search</label>
+        </div>
+
+        <div id="advancedSearch" ng-show="advanced">
+            <label>Year</label>
+            <!--input-->
+            <input class="advanced" ng-model="searchByYear" type="number" value="2017"/>
+
+            <!--input-->
+            <table class="checkbox_table" ng-controller="checkboxController">
+                <tr>
+                    <td colspan="4" class="filter_genres_td">
+                        <div class="filter_genres">
+                          <span>
+                            Genres
+                          </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-repeat="genres in genresArray">
+                    <td ng-repeat="genre in genres">
+                        <input id="{{genre.type}}" type="checkbox" ng-model="genre.value" ng-checked="genre.value"
+                               ng-change="changeGenres(genre, genre.value)"/>
+                        <label for="{{genre.type}}">{{genre.type}}</label>
+                    </td>
+                </tr>
+            </table>
+            <!--input-->
+            <label>Rating</label>
+            <input id="rating" ng-model="searchByRating" type="number" step="0.1" value="7">
+
+        </div>
+    </div>
+    <input type="search" class="form-control"
+           placeholder="Search movie" ng-model="searchMovie">
+
+    <table id="results">
+        <thead>
+        <tr>
+            <td>
+                <h5 ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                    Title
+                    <i ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down" aria-hidden="true"></i>
+                    <i ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up" aria-hidden="true"></i>
+                </h5>
+            </td>
+            <td>
+                <h5 ng-click="sortType = 'year'; sortReverse = !sortReverse">
+                    Year
+                    <span ng-show="sortType == 'year' && !sortReverse"></span>
+                    <span ng-show="sortType == 'year' && sortReverse" class="fa fa-caret-up"></span>
+                </h5>
+            </td>
+            <td>
+                <h5 ng-click="sortType = 'imdbRating'; sortReverse = !sortReverse">
+                    IMdB Rating
+                    <span ng-show="sortType == 'imdbRating' && !sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'imdbRating' && sortReverse" class="fa fa-caret-up"></span>
+                </h5>
+            </td>
+        </tr>
+        </thead>
+
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+        <tbody ng-repeat="movie in movies | orderBy:sortType:sortReverse | filter:searchMovie">
+        <tr ng-click="showDetails = ! showDetails">
+            <td>{{movie.title}}</td>
+            <td>{{movie.year}}</td>
+            <td>{{movie.imdbRating}}</td>
+        </tr>
+        <tr ng-show="showDetails">
+            <td>{{movie.storyline}}</td>
+            <td colspan="2"><img src=/>
+                <object data="{{movie.posterurl}}" type="image/jpg">
+                    <img src="http://www.interlog.com/~tfs/images/posters/TFSMoviePosterUnavailable.jpg"/>
+                </object>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</div>
+<pre>{{all|json}}</pre>
+
+</div>
+</div>
+</div>
+
+</body>
+<script src="../js/movie.js"></script>
+</html>

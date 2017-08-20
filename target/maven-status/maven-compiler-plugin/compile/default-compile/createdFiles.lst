@@ -1,0 +1,15 @@
+boot\api\DiscoverMovie.class
+boot\model\GenresRequest.class
+boot\model\Movie.class
+boot\repository\MoviesRepository.class
+boot\controller\MovieController.class
+boot\model\MoviesRequest.class
+boot\service\MongoDBMovieService.class
+boot\exception\MovieNotFoundException.class
+boot\MovieDTO.class
+boot\Application.class
+boot\model\ApiMovie.class
+boot\service\MovieService.class
+boot\service\APIServiceImpl.class
+boot\model\Genres.class
+boot\service\APIService.class

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search IMdB</title>
+    <script src="../js/libs/jquery-3.2.1.min.js"></script>
+    <script src="../js/libs/angular.min.js"></script>
+    <script src="../js/libs/fontAwesome.js"></script>
+    <script src="../js/libs/ng-infinite-scroll.min.js"></script>
+    <link rel="stylesheet" href="../css/api.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+</head>
+
+<body ng-app="sIMdB">
+
+
+<div id="container" ng-controller="sIMdBController" ng-init="showTable = false">
+    <!--LOGO-->
+    <a href="../index.html"><img src="../img/imdb_logo.png"></a>
+    <div id="searchArea">
+        <input id="searchByTitleOpt" type="checkbox" value="" ng-hide="true" ng-model="searchShow"
+               ng-disabled="searchShow"/>
+        <label class="option btn-info" for="searchByTitleOpt">Search by Title</label>
+
+        <input id="discoverOpt" type="checkbox" value="" ng-hide="true" ng-click="searchShow = !searchShow"
+               ng-disabled="!searchShow"/>
+        <label class="option btn-info" for="discoverOpt">Discover Movie</label>
+
+        <!--SEARCH BY TITLE-->
+        <div id="searchByTitle" ng-show="searchShow">
+            <form>
+                <input ng-model="searchByName" type="search" ng-show="searchShow" placeholder="Search movie title"
+                       value="" focus-on-show required ng-required="true"/>
+                <input class="btn btn-outline-secondary" type="submit" ng-click="submitTitle()"/>
+            </form>
+        </div>
+
+        <!--DISCOVER MOVIES-->
+        <div id="discover" ng-hide="searchShow" ng-init="searchByRating = ''; searchByYear = ''">
+
+            <form>
+                <input id="year" class="advanced" ng-hide="searchShow" ng-model="searchByYear" type="number"
+                       placeholder="Enter year" autofocus focus-on-show value=""/>
+
+                <input id="rating" ng-model="searchByRating" type="number" step="0.1" value=""
+                       placeholder="Enter Rating">
+                <input id="advancedSearchSubmit" class="btn btn-outline-secondary" type="submit"
+                       ng-click="submitDiscovery()">
+
+                <!--input-->
+                <table class="checkbox_table" ng-controller="checkboxController">
+                    <tr>
+                        <td colspan="4" class="filter_genres_td" ng-init="showGenres = false">
+                            <div class="filter_genres" ng-click="showGenres = !showGenres">
+                          <span>
+                            Genres
+                          </span>
+                                <i ng-hide="showGenres" class="fa fa-caret-down"
+                                   aria-hidden="true"></i>
+                                <i ng-show="showGenres" class="fa fa-caret-up"
+                                   aria-hidden="true"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="genres in genresArray" ng-show="showGenres">
+                        <td ng-repeat="genre in genres">
+                            <input id="{{genre.name}}" type="checkbox" ng-model="genre.show" ng-checked="genre.show"
+                                   ng-change="changeGenres(genre.id, genre.show)"/>
+                            <label for="{{genre.name}}">{{genre.name}}</label>
+                        </td>
+                    </tr>
+                </table>
+                <!--input-->
+
+            </form>
+
+        </div>
+    </div>
+
+    <div id="results" ng-show="showTable" ng-controller="tableController" infinite-scroll="nextPage()"
+         infinite-scroll-disabled='searchBusy'
+         infinite-scroll-distance='0.5'>
+        <input type="search" class="form-control"
+               placeholder="Search movie by keyword" ng-model="searchMovie">
+
+        <table id="resultMovies" class="table table-hover">
+            <thead>
+            <tr>
+                <td id="titleHeading">
+                    <h5 ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                        Title
+                        <i ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"
+                           aria-hidden="true"></i>
+                        <i ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up" aria-hidden="true"></i>
+                    </h5>
+                </td>
+                <td id="yearHeading">
+                    <h5 ng-click="sortType = 'release_date'; sortReverse = !sortReverse">
+                        Year
+                        <span ng-show="sortType == 'release_date' && !sortReverse"></span>
+                        <span ng-show="sortType == 'release_date' && sortReverse" class="fa fa-caret-up"></span>
+                    </h5>
+                </td>
+                <td id="ratingHeading">
+                    <h5 ng-click="sortType = 'vote_average'; sortReverse = !sortReverse">
+                        IMdB Rating
+                        <span ng-show="sortType == 'vote_average' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'vote_average' && sortReverse" class="fa fa-caret-up"></span>
+                    </h5>
+                </td>
+            </tr>
+            </thead>
+
+
+            <tbody ng-repeat="movie in movies | orderBy:sortType:sortReverse | filter:searchMovie">
+            <tr class="info" ng-click="showDetails = ! showDetails">
+                <td>{{movie.title}}</td>
+                <td>{{movie.release_date}}</td>
+                <td>{{movie.vote_average}}</td>
+            </tr>
+            <tr class="details" ng-show="showDetails">
+                <td class="overview">{{movie.overview}}</td>
+                <td colspan="2">
+                    <object class="poster" data="{{'http://image.tmdb.org/t/p/w185//' + movie.poster_path}}"
+                            type="image/jpg">
+                        <img src="http://www.interlog.com/~tfs/images/posters/TFSMoviePosterUnavailable.jpg"/>
+                    </object>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" ng-show="searchBusy"></i>
+        <span class="sr-only" ng-show="searchBusy">Loading...</span>
+        <button onclick="topFunction()" id="goToTop" title="Go to top">Top</button>
+    </div>
+
+
+</div>
+<pre>{{all|json}}</pre>
+
+</body>
+<script src="../js/api.js"></script>
+</html>
