@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/movie")
@@ -37,32 +38,32 @@ public class MovieController {
 //    }
 
     @RequestMapping(value = "/search/api/genres")
-    List<Genres> getGenres() {
+    CompletableFuture<List<Genres>> getGenres() {
         return apiService.getGenres();
     }
 
     @RequestMapping(value = "/search/api/all")
-    List<ApiMovie> findApiAll() {
+    CompletableFuture<List<ApiMovie>> findApiAll() {
         return apiService.find();
     }
 
     @RequestMapping(value = "/search/api/byTitle", method = RequestMethod.GET)
-    List<ApiMovie> findApiByTitle(@RequestParam("t") String title, @RequestParam("p") int page) {
+    CompletableFuture<List<ApiMovie>> findApiByTitle(@RequestParam("t") String title, @RequestParam("p") int page) {
         return apiService.findByTitle(title, page);
     }
 
     @RequestMapping(value = "/search/api/byTitle/pages", method = RequestMethod.GET)
-    int pagesByTitle(@RequestParam("t") String title) {
+    CompletableFuture<Integer> pagesByTitle(@RequestParam("t") String title) {
         return apiService.pagesByTitle(title);
     }
 
     @RequestMapping(value = "/search/api/discover", method = RequestMethod.GET)
-    List<ApiMovie> discoverMovies(@RequestParam("y") String year, @RequestParam("g") String genres, @RequestParam("r") String rating, @RequestParam("p") int page) {
+    CompletableFuture<List<ApiMovie>> discoverMovies(@RequestParam("y") String year, @RequestParam("g") String genres, @RequestParam("r") String rating, @RequestParam("p") int page) {
         return apiService.discoverMovies(year, genres, rating, page);
     }
 
     @RequestMapping(value = "/search/api/discover/pages", method = RequestMethod.GET)
-    int pagesDiscovery(@RequestParam("y") String year, @RequestParam("g") String genres, @RequestParam("r") String rating) {
+    CompletableFuture<Integer> pagesDiscovery(@RequestParam("y") String year, @RequestParam("g") String genres, @RequestParam("r") String rating) {
         return apiService.pagesDiscovery(year, genres, rating);
     }
 

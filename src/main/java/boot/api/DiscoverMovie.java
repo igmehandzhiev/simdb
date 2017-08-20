@@ -3,9 +3,11 @@ package boot.api;
 
 import boot.model.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 public class DiscoverMovie {
@@ -13,8 +15,8 @@ public class DiscoverMovie {
 
     private final RestTemplate restTemplate = new RestTemplateBuilder().build();
 
-
-    public List<ApiMovie> findAll() {
+    @Async
+    public CompletableFuture<List<ApiMovie>> findAll() {
         MoviesRequest moviesRequest;
         List<ApiMovie> movies;
         String url = "https://api.themoviedb.org/3/discover/movie?api_key=a151937bc1aec8b39512fddf626d4625&language=en-US&sort_by=popularity.desc&page=1";
@@ -32,48 +34,53 @@ public class DiscoverMovie {
             moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
             movies.addAll(moviesRequest.getResults());
         }
-        return movies;
+        return CompletableFuture.completedFuture(movies);
     }
 
-    public List<ApiMovie> findByTitle(String title, int page) {
+    @Async
+    public CompletableFuture<List<ApiMovie>> findByTitle(String title, int page) {
         MoviesRequest moviesRequest;
         List<ApiMovie> movies;
         String url = urlByTitle(title, page);
         moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
         movies = moviesRequest.getResults();
-        return movies;
+        return CompletableFuture.completedFuture(movies);
     }
 
-    public List<ApiMovie> discoverMovies(String year, String genres, String rating, int page) {
+    @Async
+    public CompletableFuture<List<ApiMovie>> discoverMovies(String year, String genres, String rating, int page) {
         MoviesRequest moviesRequest;
         List<ApiMovie> movies;
         String url = urlByDiscovery(year, genres, rating, page);
         moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
         movies = moviesRequest.getResults();
-        return movies;
+        return CompletableFuture.completedFuture(movies);
     }
 
-    public int pagesByTitle(String title) {
+    @Async
+    public CompletableFuture<Integer> pagesByTitle(String title) {
         MoviesRequest moviesRequest;
         String url = urlByTitle(title, 1);
         moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
-        return moviesRequest.getTotal_pages();
+        return CompletableFuture.completedFuture(moviesRequest.getTotal_pages());
     }
 
-    public int pagesDiscovery(String year, String genres, String rating) {
+    @Async
+    public CompletableFuture<Integer> pagesDiscovery(String year, String genres, String rating) {
         MoviesRequest moviesRequest;
         String url = urlByDiscovery(year, genres, rating, 1);
         moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
-        return moviesRequest.getTotal_pages();
+        return CompletableFuture.completedFuture(moviesRequest.getTotal_pages());
     }
 
-    public List<Genres> getGenres() {
+    @Async
+    public CompletableFuture<List<Genres>> getGenres() {
         String url = "https://api.themoviedb.org/3/genre/movie/list?api_key=a151937bc1aec8b39512fddf626d4625&language=en-US";
         GenresRequest genresRequest;
 
         genresRequest = restTemplate.getForObject(url, GenresRequest.class);
         genresRequest.setFalse();
-        return genresRequest.getGenres();
+        return CompletableFuture.completedFuture(genresRequest.getGenres());
     }
 
     private String urlByTitle(String title, int page) {
