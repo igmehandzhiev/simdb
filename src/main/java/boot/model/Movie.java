@@ -1,9 +1,11 @@
 package boot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Arrays;
 
+@Document(collection = "movie")
 public final class Movie {
     //not sure if to assign to builder
     @Id
