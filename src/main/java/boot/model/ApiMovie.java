@@ -8,43 +8,43 @@ import java.util.Arrays;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiMovie {
-    Integer vote_count;
+    private Integer vote_count;
 
     @Id
 //    @Key("id")
-            Integer id;
+    private Integer id;
 
-    Boolean video;
+    private Boolean video;
 
     //    @Key("vote_average")
-    String vote_average;
+    private String vote_average;
 
     @NotNull
 //    @Key("title")
-            String title;
+    private String title;
 
-    Double popularity;
+    private Double popularity;
 
     //    @Key("poster_path")
-    String poster_path;
+    private String poster_path;
 
     //    @Key("original_language")
-    String original_language;
+    private String original_language;
 
-    String original_title;
+    private String original_title;
 
     //    @Key("genre_ids")
-    Integer[] genre_ids;
+    private Integer[] genre_ids;
 
-    String backdrop_path;
+    private String backdrop_path;
 
-    Boolean adult;
+    private Boolean adult;
 
     //    @Key("overview")
-    String overview;
+    private String overview;
 
     //    @Key("release_date")
-    String release_date;
+    private String release_date;
 
 
     public ApiMovie() {

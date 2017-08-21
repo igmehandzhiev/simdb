@@ -3,9 +3,9 @@ package boot.controller;
 import boot.exception.MovieNotFoundException;
 import boot.model.ApiMovie;
 import boot.model.Genres;
-import boot.service.APIService;
-import boot.service.MovieService;
 import boot.model.Movie;
+import boot.service.ApiService;
+import boot.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/movie")
+//@RequestMapping("/movie")
 public class MovieController {
 
     private final MovieService service;
-    private final APIService apiService;
+    private final ApiService apiService;
 
     @Autowired
-    MovieController(MovieService service, APIService apiService) {
+    MovieController(MovieService service, ApiService apiService) {
         this.service = service;
         this.apiService = apiService;
     }
@@ -36,6 +36,11 @@ public class MovieController {
 //    MovieDTO delete(@PathVariable("id") String id) {
 //        return service.delete(id);
 //    }
+
+    @GetMapping(value = "/search/api/byTitleList")
+    List<ApiMovie> findApiByTitleList(@RequestParam("t") String title, @RequestParam("p") int page) {
+        return apiService.findByTitleList(title, page);
+    }
 
     @RequestMapping(value = "/search/api/genres")
     CompletableFuture<List<Genres>> getGenres() {

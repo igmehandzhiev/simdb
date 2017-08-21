@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "movie", path = "movie")
+
 public interface MoviesRepository extends MongoRepository<Movie, String> {
 
     /*private final String title;

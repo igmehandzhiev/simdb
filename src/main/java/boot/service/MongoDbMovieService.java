@@ -13,13 +13,13 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class MongoDBMovieService implements MovieService {
+public class MongoDbMovieService implements MovieService {
     private final MoviesRepository repository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBMovieService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MongoDbMovieService.class);
 
     @Autowired
-    public MongoDBMovieService(MoviesRepository moviesRepository) {
+    public MongoDbMovieService(MoviesRepository moviesRepository) {
         this.repository = moviesRepository;
     }
 
