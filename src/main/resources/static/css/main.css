@@ -13,3 +13,7 @@ body {
     border-radius: 0;
     text-decoration-line: none !important;
 }
+
+#disabled {
+    cursor: not-allowed;
+}
