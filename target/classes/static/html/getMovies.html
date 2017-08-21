@@ -8,7 +8,7 @@
     <script src="../js/libs/ng-infinite-scroll.min.js"></script>
     <link rel="stylesheet" href="../css/api.css">
     <link rel="stylesheet" href="../css/bootstrap.min.css"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+          integrity="" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
 </head>
 
@@ -28,10 +28,11 @@
         <label class="option btn-info" for="discoverOpt">Discover Movie</label>
 
         <!--SEARCH BY TITLE-->
-        <div id="searchByTitle" ng-show="searchShow">
-            <form>
+        <div ng-show="searchShow">
+            <form id="searchByTitle">
                 <input ng-model="searchByName" type="search" ng-show="searchShow" placeholder="Search movie title"
-                       value="" focus-on-show required ng-required="true"/>
+                       value="" focus-on-show required ng-required="true" pattern=".{3,}"
+                       title="At least 3 chacarters"/>
                 <input class="btn btn-outline-secondary" type="submit" ng-click="submitTitle()"/>
             </form>
         </div>
@@ -39,14 +40,22 @@
         <!--DISCOVER MOVIES-->
         <div id="discover" ng-hide="searchShow" ng-init="searchByRating = ''; searchByYear = ''">
 
-            <form>
-                <input id="year" class="advanced" ng-hide="searchShow" ng-model="searchByYear" type="number"
-                       placeholder="Enter year" autofocus focus-on-show value=""/>
+            <form id="discoverMoviesForm" name="discoverMovies">
+                <input id="year" name="year_field" class="advanced" ng-hide="searchShow" ng-model="searchByYear"
+                       type="number"
+                       placeholder="Enter year" autofocus focus-on-show value="" min="1900" max="3000"
+                       pattern="[0-9]{4}" title="Year between 1900 - 3000"/>
 
-                <input id="rating" ng-model="searchByRating" type="number" step="0.1" value=""
-                       placeholder="Enter Rating">
+                <input id="rating" name="rating_field" ng-model="searchByRating" type="number" step="0.1" min="0"
+                       max="10" value=""
+                       placeholder="Enter Rating" pattern="([0-9]+([0-9])?)+([\,|\.][0-9])?"
+                       title="Rating between 0 - 10">
+
                 <input id="advancedSearchSubmit" class="btn btn-outline-secondary" type="submit"
                        ng-click="submitDiscovery()">
+
+                <span id="invalidInput"
+                      ng-show="discoverMovies.rating_field.$error.pattern || discoverMovies.year_field.$error.pattern">Invalid Input!</span>
 
                 <!--input-->
                 <table class="checkbox_table" ng-controller="checkboxController">

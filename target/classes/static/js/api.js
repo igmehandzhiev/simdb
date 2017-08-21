@@ -7,22 +7,30 @@ var totalPages = 0;
 app.controller('sIMdBController', function ($scope, $http) {
 
     $scope.submitTitle = function () {
-        page = 1;
-        movies = [];
-        totalPages = 0;
-        $scope.getTotalPages();
+
+        var valid = $('#searchByTitle')[0].checkValidity();
+        if (valid) {
+            page = 1;
+            movies = [];
+            totalPages = 0;
+            $scope.getTotalPages();
+
+        }
     };
 
     $scope.submitDiscovery = function () {
-        page = 1;
-        movies = [];
-        totalPages = 0;
-        if (($scope.searchByYear === null || $scope.searchByYear === "") && ($scope.searchByRating === null || $scope.searchByRating === "")) {
-            alert("Too many results. Fill at leasy one input!")
-        } else {
-            $scope.getTotalPages();
+        var valid = $('#discoverMoviesForm')[0].checkValidity();
+        if (valid) {
+            page = 1;
+            movies = [];
+            totalPages = 0;
+            if (($scope.searchByYear === null || $scope.searchByYear === "") && ($scope.searchByRating === null || $scope.searchByRating === "")) {
+                alert("Too many results. Fill at leasy one input!")
+            } else {
+                $scope.getTotalPages();
+            }
         }
-    };
+    }
 
     $scope.getTotalPages = function () {
         if ($scope.searchShow) {

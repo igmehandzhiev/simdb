@@ -87,3 +87,13 @@ body {
     padding: 15px;
     border-radius: 50px 50px 0px 0px;
 }
+
+#invalidInput {
+
+    /*background-color: orangered;*/
+    color: orangered;
+}
+
+#year, #rating {
+    width: 8rem;
+}
