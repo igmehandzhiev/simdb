@@ -131,7 +131,7 @@
             <tr class="details" ng-show="showDetails">
                 <td class="overview">{{movie.overview}}</td>
                 <td colspan="2">
-                    <object class="poster" data="{{'http://image.tmdb.org/t/p/w185//' + movie.poster_path}}"
+                    <object class="poster" data="http://image.tmdb.org/t/p/w185/{{movie.poster_path}}"
                             type="image/jpg">
                         <img src="http://www.interlog.com/~tfs/images/posters/TFSMoviePosterUnavailable.jpg"/>
                     </object>
