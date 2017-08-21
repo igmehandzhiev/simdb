@@ -88,7 +88,7 @@ public class MovieControllerTest {
                 .thenReturn(movies);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/search/api/byTitleList?t=Minion:+Puppy&p=1").accept(
+                "/movie/search/api/byTitleList?t=Minion:+Puppy&p=1").accept(
                 MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

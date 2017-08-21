@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-//@RequestMapping("/movie")
+@RequestMapping("/movie")
 public class MovieController {
 
     private final MovieService service;
