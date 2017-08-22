@@ -40,7 +40,7 @@ public class DatabaseConfiguration extends AbstractMongoConfiguration {
     }
 
     @Override
-    public Mongo mongo() throws Exception {
+    public Mongo mongo() throws RuntimeException {
         return mongo;
     }
 }

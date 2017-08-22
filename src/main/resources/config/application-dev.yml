@@ -9,3 +9,7 @@ spring:
             host: localhost
             port: 27017
             database: IMdB
+
+    mvc:
+      async:
+        request-timeout: -1

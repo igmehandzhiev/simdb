@@ -1,10 +1,14 @@
 package boot.controller;
 
 import boot.model.ApiMovie;
+import boot.model.Genres;
+import boot.model.GenresRequest;
 import boot.service.ApiService;
 import boot.service.MovieService;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -21,12 +25,26 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-//@Ignore
+/**
+ * MovieController Tester.
+ *
+ * @author <Authors name>
+ * @version 1.0
+ * @since <pre>Aug 22, 2017</pre>
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = MovieController.class, secure = false)
 public class MovieControllerTest {
 
+    @Before
+    public void before() throws Exception {
+    }
+
+    @After
+    public void after() throws Exception {
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,6 +55,7 @@ public class MovieControllerTest {
     @MockBean
     private MovieService movieService;
 
+
 //    @Before
 //    public void setUp() {
 //        apiService = Mockito.mock(ApiService.class);
@@ -44,71 +63,190 @@ public class MovieControllerTest {
 //
 //    }
 
-    ApiMovie sda = new ApiMovie(10, 1, false,
-            "10.0", "TestMovie", 3.00, "poster_path",
-            "OriginalLanguange", "OriginalTitle", new Integer[]{12},
-            "backdrop_path", false, "overview", "releaseDate");
+    ApiMovie sda = new ApiMovie(101, 2, true,
+            "", "M", 1.01, "pOsTeR_PATH",
+            "bg", "", new Integer[]{1, 2, 3},
+            "", true, "OvErViEw.", "2000-12-12");
 
-    ApiMovie mockMovie = new ApiMovie(94, 229407, false, "7.7",
-            "Minions: Puppy", 1.646499, "/maBSw4YgUzjQoowiMI51FG0Npzc.jpg",
-            "en", "Minions: Puppy", new Integer[]{16, 10751},
-            "/eAKzsYVHiC0bSNudVo9IgREurmm.jpg", false, "A Minion, seeing many owners walk their dogs, wants a puppy of his own." +
-            " He tries to leash a ladybug but fails." +
-            " Luckily, a UFO that sweeps away the ladybug somehow agrees to become a Puppy.", "2013-12-10");
+    ApiMovie mockMovie = new ApiMovie(100, 1, false, "1.1",
+            "Title", 1.11, "/poster_path.jpg",
+            "ol", "Original_Title", new Integer[]{1, 2},
+            "/backdrop_path.jpg", false, "Overview.", "year-month-date");
 
     List<ApiMovie> movies = Arrays.asList(mockMovie);
 
     String exampleMoviesJson = "[\n" +
             "    {\n" +
-            "        \"vote_count\": 94,\n" +
-            "        \"id\": 229407,\n" +
+            "        \"vote_count\": 100,\n" +
+            "        \"id\": 1,\n" +
             "        \"video\": false,\n" +
-            "        \"vote_average\": \"7.7\",\n" +
-            "        \"title\": \"Minions: Puppy\",\n" +
-            "        \"popularity\": 1.646499,\n" +
-            "        \"poster_path\": \"/maBSw4YgUzjQoowiMI51FG0Npzc.jpg\",\n" +
-            "        \"original_language\": \"en\",\n" +
-            "        \"original_title\": \"Minions: Puppy\",\n" +
+            "        \"vote_average\": \"1.1\",\n" +
+            "        \"title\": \"Title\",\n" +
+            "        \"popularity\": 1.11,\n" +
+            "        \"poster_path\": \"/poster_path.jpg\",\n" +
+            "        \"original_language\": \"ol\",\n" +
+            "        \"original_title\": \"Original_Title\",\n" +
             "        \"genre_ids\": [\n" +
-            "            16,\n" +
-            "            10751\n" +
+            "            1,\n" +
+            "            2\n" +
             "        ],\n" +
-            "        \"backdrop_path\": \"/eAKzsYVHiC0bSNudVo9IgREurmm.jpg\",\n" +
+            "        \"backdrop_path\": \"/backdrop_path.jpg\",\n" +
             "        \"adult\": false,\n" +
-            "        \"overview\": \"A Minion, seeing many owners walk their dogs, wants a puppy of his own. He tries to leash a ladybug but fails. Luckily, a UFO that sweeps away the ladybug somehow agrees to become a Puppy.\",\n" +
-            "        \"release_date\": \"2013-12-10\"\n" +
+            "        \"overview\": \"Overview.\",\n" +
+            "        \"release_date\": \"year-month-date\"\n" +
             "    }\n" +
             "]";
 
-
+    /**
+     * Method: findApiByTitleList(@RequestParam("t") String title, @RequestParam("p") int page)
+     */
     @Test
-    public void retrieveMovies() throws Exception {
+    public void testFindApiByTitleList() throws Exception {
         Mockito.when(
                 apiService.findByTitleList(Mockito.anyString(), Mockito.anyInt()))
                 .thenReturn(movies);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/movie/search/api/byTitleList?t=Minion:+Puppy&p=1").accept(
+                "/movie/search/api/byTitleList?t=blabla&p=42").accept(
                 MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-
-        String expected = "{\"vote_count\":94,\"id\":229407,\"video\":false,\"vote_average\":\"7.7\"" +
-                ",\"title\":\"Minions: Puppy\",\"popularity\":1.646499,\"poster_path\":\"/maBSw4YgUzjQoowiMI51FG0Npzc.jpg\"" +
-                ",\"original_language\":\"en\",\"original_title\":\"Minions: Puppy\",\"genre_ids\":[16,10751]" +
-                ",\"backdrop_path\":\"/eAKzsYVHiC0bSNudVo9IgREurmm.jpg\",\"adult\":false" +
-                ",\"overview\":\"A Minion, seeing many owners walk their dogs, wants a puppy of his own. He tries to leash a ladybug but fails." +
-                " Luckily, a UFO that sweeps away the ladybug somehow agrees to become a Puppy.\",\"release_date\":\"2013-12-10\"}";
+        String expected = "{\"vote_count\":100,\"id\":1,\"video\":false,\"vote_average\":\"1.1\"" +
+                ",\"title\":\"Title\",\"popularity\":1.11,\"poster_path\":\"/poster_path.jpg\"" +
+                ",\"original_language\":\"ol\",\"original_title\":\"Original_Title\",\"genre_ids\":[1,2]" +
+                ",\"backdrop_path\":\"/backdrop_path.jpg\",\"adult\":false" +
+                ",\"overview\":\"Overview.\",\"release_date\":\"year-month-date\"}";
 
         JSONObject jsonObject = new JSONObject(expected);
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(jsonObject);
-        System.out.println(
-                jsonArray.toString());
-
         JSONAssert.assertEquals(jsonArray.toString(), result.getResponse().getContentAsString(), false);
+    }
+
+    /**
+     * Method: getGenres()
+     */
+    @Test
+    public void testGetGenres() throws Exception {
+        Genres genre1 = new Genres(1, "Genre", true);
+        Genres genre2 = new Genres(2, "Genre2", false);
+        GenresRequest genresRequest = new GenresRequest();
+        genresRequest.setGenres(Arrays.asList(genre1, genre2));
+        System.out.println("GENRES " + genresRequest.getGenres());
+
+        Mockito.when(apiService.getGenres()).thenReturn(CompletableFuture.completedFuture(genresRequest.getGenres()));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+                "/movie/search/api/genres");
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+        System.out.println("Async result: " + result.getAsyncResult());
+
+        String expected = "[{'id': 1, 'name': 'Genre', 'show': true}," +
+                "{'id': 2, 'name': 'Genre2', 'show': false}]";
+
+        JSONArray jsonArray = new JSONArray(expected);
+        JSONAssert.assertEquals(jsonArray.toString(), result.getAsyncResult().toString(), false);
+
+
+    }
+
+    /**
+     * Method: findApiAll()
+     */
+    @Test
+    public void testFindApiAll() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: findApiByTitle(@RequestParam("t") String title, @RequestParam("p") int page)
+     */
+    @Test
+    public void testFindApiByTitle() throws Exception {
+
+    }
+
+    /**
+     * Method: pagesByTitle(@RequestParam("t") String title)
+     */
+    @Test
+    public void testPagesByTitle() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: discoverMovies(@RequestParam("y") String year, @RequestParam("g") String genres, @RequestParam("r") String rating, @RequestParam("p") int page)
+     */
+    @Test
+    public void testDiscoverMovies() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: pagesDiscovery(@RequestParam("y") String year, @RequestParam("g") String genres, @RequestParam("r") String rating)
+     */
+    @Test
+    public void testPagesDiscovery() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: findAll()
+     */
+    @Test
+    public void testFindAll() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: findByTitle(@RequestParam("t") String title)
+     */
+    @Test
+    public void testFindByTitle() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: findByGenres(@RequestParam("g") String[] genres)
+     */
+    @Test
+    public void testFindByGenres() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: findByTitleYearRating(@RequestParam("t") String title, @RequestParam("y") String year, @RequestParam("r") Double rating)
+     */
+    @Test
+    public void testFindByTitleYearRating() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: findByTitleYearGenreRating(@RequestParam("t") String title, @RequestParam("y") String year, @RequestParam("g") String[] genres, @RequestParam("r") Double rating)
+     */
+    @Test
+    public void testFindByTitleYearGenreRating() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    /**
+     * Method: handleTodoNotFound(MovieNotFoundException ex)
+     */
+    @Test
+    public void testHandleTodoNotFound() throws Exception {
+//TODO: Test goes here... 
+    }
+
+    @Test
+    public void retrieveMovies() throws Exception {
+
 //        JSONAssert.assertEquals(expected, result.getResponse()
 //                .getContentAsString(), false);
     }
-}
+
+
+} 

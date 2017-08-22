@@ -26,15 +26,15 @@ public interface MoviesRepository extends MongoRepository<Movie, String> {
     private String posterurl;
     */
 
-    public List<Movie> findAll();
+    List<Movie> findAll();
 
-    public List<Movie> findDistinctByTitleContaining(@Param("t") String t);
+    List<Movie> findDistinctByTitleContaining(@Param("t") String t);
 
-    public List<Movie> findDistinctByTitleContainingAndYearGreaterThanEqualAndImdbRatingGreaterThanEqual
+    List<Movie> findDistinctByTitleContainingAndYearGreaterThanEqualAndImdbRatingGreaterThanEqual
             (@Param("t") String title, @Param("y") String year, @Param("r") Double rating);
 
-    public List<Movie> findDistinctByGenresEquals(@Param("g") String[] genres);
+    List<Movie> findDistinctByGenresEquals(@Param("g") String[] genres);
 
-    public List<Movie> findDistinctByTitleContainingAndYearEqualsAndGenresContainingAndImdbRatingGreaterThanEqual
+    List<Movie> findDistinctByTitleContainingAndYearEqualsAndGenresContainingAndImdbRatingGreaterThanEqual
             (@Param("t") String title, @Param("y") String year, @Param("g") String[] genres, @Param("r") Double rating);
 }

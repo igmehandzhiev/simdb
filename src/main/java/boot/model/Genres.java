@@ -35,9 +35,15 @@ public class Genres {
         this.show = show;
     }
 
+    public Genres(int id, String name, boolean show) {
+        this.id = id;
+        this.name = name;
+        this.show = show;
+    }
+
     @Override
     public String toString() {
-        return "Genres{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", show=" + show +

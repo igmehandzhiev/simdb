@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface ApiService {
-    public CompletableFuture<List<ApiMovie>> find();
+    CompletableFuture<List<ApiMovie>> find();
 
-    public CompletableFuture<List<ApiMovie>> findByTitle(
+    CompletableFuture<List<ApiMovie>> findByTitle(
             String title, int page);
 
-    public CompletableFuture<List<ApiMovie>> discoverMovies(
+    CompletableFuture<List<ApiMovie>> discoverMovies(
             String year, String genres, String rating, int page);
 
-    public CompletableFuture<Integer> pagesByTitle(
+    CompletableFuture<Integer> pagesByTitle(
             String title);
 
-    public CompletableFuture<Integer> pagesDiscovery(
+    CompletableFuture<Integer> pagesDiscovery(
             String year, String genres, String rating);
 
-    public CompletableFuture<List<Genres>> getGenres();
+    CompletableFuture<List<Genres>> getGenres();
 
 
     List<ApiMovie> findByTitleList(String title, int page);

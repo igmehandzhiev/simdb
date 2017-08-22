@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 public class DiscoverMovie {
@@ -18,30 +19,54 @@ public class DiscoverMovie {
 
     private final RestTemplate restTemplate = new RestTemplateBuilder().build();
 
-        @Async
+    @Async
     public CompletableFuture<List<ApiMovie>> findAll() {
         MoviesRequest moviesRequest;
+
         List<ApiMovie> movies;
         String url = "https://api.themoviedb.org/3/discover/movie?api_key=a151937bc1aec8b39512fddf626d4625&language=en-US&sort_by=popularity.desc&page=1";
         moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
         movies = moviesRequest.getResults();
         int pages = moviesRequest.getTotal_pages();
         int limit = Integer.parseInt(restTemplate.headForHeaders(url).getFirst("X-RateLimit-Limit"));
-        for (int i = 2; i < limit; ++i) {
-            url = "https://api.themoviedb.org/3/discover/movie?api_key=a151937bc1aec8b39512fddf626d4625&language=en-US&sort_by=popularity.desc&page="
-                    + i;
-//            request = IOUtils.toString(new URL(url), "UTF-8");
-//            jsonObject = new JSONObject(request);
-//            moviesRequest = gson.fromJson(jsonObject.toString(), MoviesRequest.class);
-//            movies = moviesRequest.getResults();
-            moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
-            movies.addAll(moviesRequest.getResults());
+        int temp = 2;
+        int count = limit / 2;
+        for (int j = 2; j < 200 / limit; j++) {
+            for (int i = temp; i < count + 1; ++i) {
+                try {
+                    movies.addAll(findApiMoviesByPage(i).get());
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                temp = i;
+                System.out.printf("count: %d  i: %d ", count, i);
+            }
+            count += (limit / 2 - 2);
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
         return CompletableFuture.completedFuture(movies);
     }
 
+    @Async
+    CompletableFuture<List<ApiMovie>> findApiMoviesByPage(int page) {
+        MoviesRequest moviesRequest;
+        List<ApiMovie> movies;
+        String url = "https://api.themoviedb.org/3/discover/movie" +
+                "?api_key=a151937bc1aec8b39512fddf626d4625&language=en-US&sort_by=popularity.desc&page=" + page;
+        moviesRequest = restTemplate.getForObject(url, MoviesRequest.class);
+        movies = moviesRequest.getResults();
+        System.out.println(restTemplate.headForHeaders(url).getFirst("X-RateLimit-Remaining"));
 
-        @Async
+        return CompletableFuture.completedFuture(movies);
+    }
+
+
+    @Async
     public CompletableFuture<List<ApiMovie>> findByTitle(String title, int page) {
         MoviesRequest moviesRequest;
         List<ApiMovie> movies;
@@ -51,7 +76,7 @@ public class DiscoverMovie {
         return CompletableFuture.completedFuture(movies);
     }
 
-        @Async
+    @Async
     public CompletableFuture<List<ApiMovie>> discoverMovies(String year, String genres, String rating, int page) {
         MoviesRequest moviesRequest;
         List<ApiMovie> movies;
@@ -61,7 +86,7 @@ public class DiscoverMovie {
         return CompletableFuture.completedFuture(movies);
     }
 
-        @Async
+    @Async
     public CompletableFuture<Integer> pagesByTitle(String title) {
         MoviesRequest moviesRequest;
         String url = urlByTitle(title, 1);
@@ -69,7 +94,7 @@ public class DiscoverMovie {
         return CompletableFuture.completedFuture(moviesRequest.getTotal_pages());
     }
 
-        @Async
+    @Async
     public CompletableFuture<Integer> pagesDiscovery(String year, String genres, String rating) {
         MoviesRequest moviesRequest;
         String url = urlByDiscovery(year, genres, rating, 1);
@@ -77,7 +102,7 @@ public class DiscoverMovie {
         return CompletableFuture.completedFuture(moviesRequest.getTotal_pages());
     }
 
-        @Async
+    @Async
     public CompletableFuture<List<Genres>> getGenres() {
         String url = "https://api.themoviedb.org/3/genre/movie/list?api_key=a151937bc1aec8b39512fddf626d4625&language=en-US";
         GenresRequest genresRequest;
