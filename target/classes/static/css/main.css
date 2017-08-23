@@ -1,8 +1,8 @@
 body {
     text-align: center;
-    background-color: rgb(255, 255, 238);
+    color: #282735;
+    background-color: #FFFFF2;
     box-sizing: border-box;
-    color: rgb(33, 37, 41);
     display: block;
     font-weight: normal;
     text-size-adjust: 100%;
