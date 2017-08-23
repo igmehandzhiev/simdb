@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23d984a2-e060-4901-84e8-fc6fcecf3828" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/css/api1.css" afterPath="$PROJECT_DIR$/target/classes/static/css/api1.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/css/main.css" afterPath="$PROJECT_DIR$/target/classes/static/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/css/movie.css" afterPath="$PROJECT_DIR$/target/classes/static/css/movie.css" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -190,6 +186,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <push-targets>
+      <push-target-info target-remote="origin" target-branch="imehandzhiev" repo="$PROJECT_DIR$/.." source="final_task_iMehandzhiev" />
+    </push-targets>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -542,6 +541,11 @@
     <property name="RequestMappingsPanelWidth2" value="75" />
     <property name="RequestMappingsPanelOrder2" value="2" />
   </component>
+  <component name="Push.Settings">
+    <excluded-roots>
+      <path value="$PROJECT_DIR$" />
+    </excluded-roots>
+  </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="boot" />
@@ -828,7 +832,7 @@
       <workItem from="1503326740616" duration="3709000" />
       <workItem from="1503386505283" duration="12776000" />
       <workItem from="1503403568898" duration="12541000" />
-      <workItem from="1503473543707" duration="145000" />
+      <workItem from="1503473543707" duration="246000" />
     </task>
     <task id="LOCAL-00001" summary="Background-color changed.&#10;Contrast-ratio = 14.6">
       <created>1503416570679</created>
@@ -837,7 +841,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503416570679</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Background-color changed.&#10;Contrast-ratio = 14.6">
+      <created>1503473702633</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1503473702633</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -873,7 +884,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="193375000" />
+    <option name="totallyTimeSpent" value="193476000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -908,9 +919,9 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3888889" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32555556" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19" sideWeight="0.4935553" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19" sideWeight="0.4935553" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.49785176" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22761194" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22761194" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
