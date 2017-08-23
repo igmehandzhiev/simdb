@@ -82,5 +82,14 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="837016933a" level="application" />
+    <orderEntry type="library" name="angular" level="application" />
+    <orderEntry type="library" name="angular-bootstrap-lightbox-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="html-entities-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="htmlhint-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="http-codes-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="jQuery-2.0.0" level="application" />
+    <orderEntry type="library" name="lodash" level="application" />
+    <orderEntry type="library" name="2e0ec7e5bef07c338117d898342fa4003684ea7a" level="application" />
   </component>
 </module>
